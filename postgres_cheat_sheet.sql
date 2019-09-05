@@ -24,3 +24,16 @@ select name,setting from pg_settings where name = 'max_connections';
 
 --show user (describe user)
 \du
+
+
+
+--move table to new ts
+alter table large_table set tablespace big_tablespace;
+
+--move all tablespaces
+alter table all in tablespace mytbs1 set tablespace big_tablespace;
+
+
+--file path für tabelle
+SELECT pg_relation_filepath('new_large_test');
+
