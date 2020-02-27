@@ -10,7 +10,11 @@ show server_version;
 show all;
 select * from pg_settings;
 
+--show specific setting
 select * from   pg_settings where  name = 'max_connections';
+
+-- in short
+show max_connections
 
 --settings value and name 
 select name,setting from pg_settings where name = 'max_connections';
@@ -26,7 +30,6 @@ select name,setting from pg_settings where name = 'max_connections';
 \du
 
 
-
 --move table to new ts
 alter table large_table set tablespace big_tablespace;
 
@@ -34,6 +37,6 @@ alter table large_table set tablespace big_tablespace;
 alter table all in tablespace mytbs1 set tablespace big_tablespace;
 
 
---file path für tabelle
+--file path for tabelle
 SELECT pg_relation_filepath('new_large_test');
 
