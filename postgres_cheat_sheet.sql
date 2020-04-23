@@ -10,7 +10,11 @@ show server_version;
 show all;
 select * from pg_settings;
 
+--show specific setting
 select * from   pg_settings where  name = 'max_connections';
+
+-- in short
+show max_connections
 
 --settings value and name 
 select name,setting from pg_settings where name = 'max_connections';
@@ -28,6 +32,7 @@ select name,setting from pg_settings where name = 'max_connections';
 --check activity
 select * from pg_stat_activity 
 
+<<<<<<< HEAD
 --check ssl
 select * from pg_stat_ssl
 
@@ -40,6 +45,8 @@ select * from pg_stat_all_tables
 --index stats
 select * from pg_stat_all_indexes
 
+=======
+>>>>>>> f0fbe2bd30a51805028c223ea952d33da8b57c5b
 --move table to new ts
 alter table large_table set tablespace big_tablespace;
 
@@ -47,6 +54,7 @@ alter table large_table set tablespace big_tablespace;
 alter table all in tablespace mytbs1 set tablespace big_tablespace;
 
 
+<<<<<<< HEAD
 --file path für tabelle
 select pg_relation_filepath('new_large_test');
 
@@ -173,6 +181,9 @@ select datname, application_name, pid, backend_start, query_start, state_change,
 select relname,idx_scan::float/(idx_scan+seq_scan+1) as idx_scan_ratio from pg_stat_all_tables
 where schemaname=’public’
 order by idx_scan_ratio asc;
+=======
+--file path for tabelle
+SELECT pg_relation_filepath('new_large_test');
 
 --reset stats
 select pg_stat_statements_reset();
