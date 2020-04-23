@@ -32,7 +32,6 @@ select name,setting from pg_settings where name = 'max_connections';
 --check activity
 select * from pg_stat_activity 
 
-<<<<<<< HEAD
 --check ssl
 select * from pg_stat_ssl
 
@@ -46,7 +45,6 @@ select * from pg_stat_all_tables
 select * from pg_stat_all_indexes
 
 =======
->>>>>>> f0fbe2bd30a51805028c223ea952d33da8b57c5b
 --move table to new ts
 alter table large_table set tablespace big_tablespace;
 
@@ -54,7 +52,6 @@ alter table large_table set tablespace big_tablespace;
 alter table all in tablespace mytbs1 set tablespace big_tablespace;
 
 
-<<<<<<< HEAD
 --file path für tabelle
 select pg_relation_filepath('new_large_test');
 
@@ -176,12 +173,12 @@ select datname, application_name, pid, backend_start, query_start, state_change,
   select * from pg_stat_activity where waiting='t'
 
 
-  --index scan ratio
+--index scan ratio
 
 select relname,idx_scan::float/(idx_scan+seq_scan+1) as idx_scan_ratio from pg_stat_all_tables
 where schemaname=’public’
 order by idx_scan_ratio asc;
-=======
+
 --file path for tabelle
 SELECT pg_relation_filepath('new_large_test');
 
