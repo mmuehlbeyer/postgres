@@ -59,7 +59,8 @@ alter table all in tablespace mytbs1 set tablespace big_tablespace;
 --file path für tabelle
 select pg_relation_filepath('new_large_test');
 
-
+--show tablespaces
+select * from pg_tablespace;
 
 --show database size pretty
 select pg_size_pretty(pg_database_size('__database_name__'));
