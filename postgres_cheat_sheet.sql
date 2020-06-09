@@ -29,6 +29,10 @@ select name,setting from pg_settings where name = 'max_connections';
 --show user (describe user)
 \du
 
+--check for existing user
+select u.usename as username from pg_catalog.pg_user u where usename like '%username%';
+
+
 --check activity
 select * from pg_stat_activity 
 
