@@ -1,4 +1,4 @@
---postgresql get ddl collection
+-- postgresql get ddl collection
 -- get ddl for several objects
 
 
