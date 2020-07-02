@@ -137,8 +137,6 @@ WHERE s.idx_scan < 10      -- has never been scanned/not scanned for more than 1
 ORDER BY pg_relation_size(s.indexrelid) DESC;
 
 
-
-
 -- last autovacuum run
 -- it should run for all tables
 -- at least for the frequent updated and large tables
