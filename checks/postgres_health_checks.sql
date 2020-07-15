@@ -121,6 +121,7 @@ where not indisunique  and idx_scan < 50   and pg_relation_size(relid) > 5 * 819
 order by pg_relation_size(i.indexrelid) / nullif(idx_scan, 0) desc nulls first,
 pg_relation_size(i.indexrelid) desc;
 
+-- check unused indices2
 SELECT s.schemaname,
        s.relname AS tablename,
        s.indexrelname AS indexname,
