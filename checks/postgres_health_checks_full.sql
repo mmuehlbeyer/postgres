@@ -157,10 +157,35 @@ select schemaname , relname, n_dead_tup, n_live_tup, n_dead_tup > 0 as needs_vac
 order by n_dead_tup desc
 limit 3;
 
+-- autovacuum checks 
+select
+   t.relname,
+   pg_size_pretty(pg_table_size(c.oid)),
+   t.n_dead_tup,
+   50 + 0.1 * c.reltuples as vacuum_threshold,
+   t.n_live_tup,
+   t.n_tup_del,
+   t.n_tup_upd,
+   t.autovacuum_count,
+   -- t.last_vacuum,
+   t.last_autovacuum,
+   now() as now,
+   c.reltuples,
+   t.n_dead_tup > (50 + 0.1 * c.reltuples) as is_vacuum
+from
+   pg_stat_user_tables t inner join pg_class c on t.relname = c.relname
+order by n_dead_tup desc
+limit 50
+
+
+
 -- table information
 -- relevant for vacuum setting
 -- high amount of updates --> vacuum necessary
 select schemaname, relname , n_tup_ins as "inserts",n_tup_upd as "updates",n_tup_del as "deletes", n_live_tup as "live_tuples", n_dead_tup as "dead_tuples" from pg_stat_user_tables;
+
+
+
 
 
 
