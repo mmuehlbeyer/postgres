@@ -1,6 +1,5 @@
 --postgres health checks
---Michael Muehlbeyer (mmi)
---internal use only
+--Michael Muehlbeyer
 
 --check postgres version
 
