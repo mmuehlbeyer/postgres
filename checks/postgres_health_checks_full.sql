@@ -71,6 +71,21 @@ from
 
 
 
+----
+-- Commit Ratio / Rollback Ratio / Deadlocks / Conflicts / Temp Files
+-- c_commit_ratio should be > 95%
+-- c_rollback_ratio should be < 5%
+-- deadlocks should be close to 0
+-- conflicts should be close to 0
+-- temp_files and temp_bytes watch out for them
+
+select datname, (xact_commit*100)/nullif(xact_commit+xact_rollback,0) as c_commit_ratio, (xact_rollback*100)/nullif(xact_commit+xact_rollback, 0) as c_rollback_ratio, deadlocks, conflicts, temp_files, pg_size_pretty(temp_bytes) from pg_stat_database;
+----
+
+
+-- time to read a block
+select * from pg_stat_statements where blk_read_time <> 0 order by blk_read_time desc;
+
 
 --check top sql statements
 -- limit to top 30 statements
@@ -89,6 +104,25 @@ where query not similar to '%pg_%'
 and calls > 300
 order by time_per
 desc limit 30;
+
+----
+-- queries with high traffic in Shared Buffers
+select query, shared_blks_dirtied from pg_stat_statements where shared_blks_dirtied > 0 order by 2 desc;
+----
+
+-- long running transaction
+select client_addr, usename, datname, clock_timestamp() - xact_start as xact_age, clock_timestamp() - query_start as query_age, query from pg_stat_activity order by xact_start, query_start;
+
+-- mean_time all sql executions
+select (sum(total_time) / sum(calls))::numeric(6,3) from pg_stat_statements;
+
+-- queries runninng longer than 9 secs
+select now() - query_start as "runtime", usename, datname, waiting, state, query from pg_stat_activity where now() - query_start > '9 seconds'::interval order by runtime desc;
+
+-- query with most cpu
+select substring(query, 1, 100) as short_query, round(total_time::numeric, 2) as total_time, calls, rows, round(total_time::numeric / calls, 2) as avg_time, round((100 * total_time / sum(total_time::numeric) over ())::numeric, 2) as percentage_cpu from pg_stat_statements order by avg_time desc limit 20;
+
+​​
 
 
 -- check for dead rows
@@ -184,11 +218,6 @@ limit 50
 select schemaname, relname , n_tup_ins as "inserts",n_tup_upd as "updates",n_tup_del as "deletes", n_live_tup as "live_tuples", n_dead_tup as "dead_tuples" from pg_stat_user_tables;
 
 
-
-
-
-
-
 -- toast size by table
 -- 
 select c.relname as name,
@@ -239,3 +268,8 @@ select
     2 asc,
     3 asc,
     count(*) desc;
+
+
+
+
+​
