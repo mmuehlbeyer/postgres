@@ -8,7 +8,10 @@ Wants=network-online.target local-fs.target remote-fs.target time-sync.target
 User=etcd
 Type=notify
 Environment=ETCD_DATA_DIR=/var/lib/etcd
-Environment=ETCD_NAME=%m
+Environment=ETCD_NAME=192.168.36.131
+Environment="ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379,http://0.0.0.0:4001"
+Environment="ETCD_ADVERTISE_CLIENT_URLS=http://192.168.36.131:4001,http://192.168.36.131:2379"
+Environment=ETCD_ENABLE_V2=true
 ExecStart=/usr/local/bin/etcd
 Restart=always
 RestartSec=10s
