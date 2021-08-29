@@ -67,6 +67,7 @@ sudo chown -R etcd:etcd /var/lib/etcd/
 
 create systemd file /etc/systemd/system/etcd3.service with following contents
 
+```
 [Unit]
 Description=etcd key-value store
 Documentation=https://github.com/etcd-io/etcd
@@ -77,7 +78,10 @@ Wants=network-online.target local-fs.target remote-fs.target time-sync.target
 User=etcd
 Type=notify
 Environment=ETCD_DATA_DIR=/var/lib/etcd
-Environment=ETCD_NAME=%m
+Environment=ETCD_NAME=192.168.36.131
+Environment="ETCD_LISTEN_CLIENT_URLS=http://0.0.0.0:2379,http://0.0.0.0:4001"
+Environment="ETCD_ADVERTISE_CLIENT_URLS=http://192.168.36.131:4001,http://192.168.36.131:2379"
+Environment=ETCD_ENABLE_V2=true
 ExecStart=/usr/local/bin/etcd
 Restart=always
 RestartSec=10s
@@ -85,10 +89,14 @@ LimitNOFILE=40000
 
 [Install]
 WantedBy=multi-user.target
+```
 
 ### start etcd 
+
+```bash
 sudo systemctl daemon-reload
-systemctl start etcd3
+sudo systemctl start etcd3
+```
 
 
 
