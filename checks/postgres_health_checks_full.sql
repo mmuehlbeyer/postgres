@@ -195,7 +195,7 @@ select
    t.relname,
    pg_size_pretty(pg_table_size(c.oid)),
    t.n_dead_tup,
-   50 + 0.1 * c.reltuples as vacuum_threshold,
+   50 + 0.1 * c.reltuples() as vacuum_threshold,
    t.n_live_tup,
    t.n_tup_del,
    t.n_tup_upd,
